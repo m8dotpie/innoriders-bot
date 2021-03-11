@@ -12,7 +12,13 @@ const client = new Client({
 
 client.connect();
 
-client.query('DROP TABLE proofData');
+client.query('DROP TABLE proofData', (err, res) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(res);
+    }
+});
 
 // client.query('CREATE TABLE IF NOT EXISTS proofData (addingTraining bool, proofsIDs integer[10], nextProof integer)', (err, res) => {
 //     if (err) {
