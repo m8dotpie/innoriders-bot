@@ -30,11 +30,11 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     }
 });
 
-bot.action('sendTraining', (ctx) => {
+bot.hears('sendTraining', (ctx) => {
     console.log('Successfully sent training');
 });
 
-bot.action('removeTraining', (ctx) => {
+bot.hears('removeTraining', (ctx) => {
     console.log('Successfully removed training');
 });
 
@@ -49,7 +49,7 @@ async function startTraining(ctx) {
     ctx.reply('Waiting for proofs, bro!');
 }
 
-bot.action('addTraining', async (ctx) => {
+bot.hears('addTraining', async (ctx) => {
     startTraining(ctx);
 });
 
