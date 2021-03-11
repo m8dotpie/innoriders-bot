@@ -43,6 +43,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         return;
     }
     console.log('Successfully sent training');
+    ctx.reply('Great, club admins will review you training soon!', defaultMenu);
 });
 
 bot.hears('Forget about this training', async (ctx) => {
@@ -51,6 +52,7 @@ bot.hears('Forget about this training', async (ctx) => {
         return;
     }
     console.log('Successfully removed training');
+    ctx.reply('No problem, looking forward to hearing from you!', defaultKeyboard);
 });
 
 async function startTraining(ctx) {
