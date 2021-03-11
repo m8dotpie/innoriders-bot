@@ -42,7 +42,7 @@ async function startTraining(ctx) {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              m.callbackButton('Finished with proofs', 'sendTraining')
+              m.callbackButton('Finished with proofs', 'sendTraining'),
               m.callbackButton('Forget about this training', 'removeTraining')
           ]));
     await client.query(`INSERT INTO $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
