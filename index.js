@@ -42,8 +42,8 @@ async function startTraining(ctx) {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              [m.button('Finished with proofs', 'sendTraining')],
-              [m.button('Forget about this training', 'removeTraining')]
+              [m.button.callback('Finished with proofs', 'sendTraining')],
+              [m.button.callback('Forget about this training', 'removeTraining')]
           ]));
     await client.query(`UPDATE $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!');
@@ -57,7 +57,7 @@ bot.start(async (ctx) => {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              [m.button('Add training', 'addTraining')]
+              [m.button.callback('Add training', 'addTraining')]
           ]));
     if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
         ctx.reply('You already in da club!');
