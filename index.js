@@ -27,6 +27,4 @@ client.query('DROP TABLE proofData', (err, res) => {
 //     console.log(res);
 // });
 
-client.end();
-
 module.exports = bot;
