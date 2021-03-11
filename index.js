@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect();
 
-client.query('CREATE TABLE IF NOT EXISTS proofData (addingTraining bool, proofsIDs integer[10])', (err, res) => {
+client.query('CREATE TABLE IF NOT EXISTS proofData (addingTraining bool, proofsIDs integer[10], nextProof integer)', (err, res) => {
     if (err) {
         throw err;
     }
