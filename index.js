@@ -30,14 +30,15 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     }
 });
 
-bot.start((ctx) => {
-    client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(res);
-        }
-    });
+bot.start(async (ctx) => {
+    console.log(await client.query(`SELECT * WHERE id=${ctx.from.id}`));
+    // client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         console.log(res);
+    //     }
+    // });
 });
 
 module.exports = bot;
