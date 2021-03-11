@@ -45,11 +45,11 @@ async function startTraining(ctx) {
               m.callbackButton('Finished with proofs', 'sendTraining'),
               m.callbackButton('Forget about this training', 'removeTraining')
           ]));
-    await client.query(`INSERT INTO $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
+    await client.query(`UPDATE $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!');
 }
 
-bot.hears('Add training', async (ctx) => {
+bot.action('addTraining', async (ctx) => {
     startTraining(ctx);
 });
 
@@ -57,7 +57,7 @@ bot.start(async (ctx) => {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              m.callbackButton('Add training', '')
+              m.callbackButton('Add training', 'addTraining')
           ]));
     if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
         ctx.reply('You already in da club!');
