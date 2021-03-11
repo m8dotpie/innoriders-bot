@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect();
 
-client.query('SHOW TABLES', (err, res) => {
+client.query('SELECT * FROM pg_catalog.pg_tables;', (err, res) => {
     if (err) {
         console.log(err);
     } else {
