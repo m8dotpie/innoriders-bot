@@ -7,4 +7,4 @@ bot.hears('test', (ctx) => {
     ctx.telegram.sendMessage(ctx.chat.id, 'Alive and logged');
 });
 
-module.export = bot;
+module.exports = bot;
