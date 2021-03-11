@@ -22,7 +22,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     }
 })
 
-client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (user integer, addingTraining bool, proofsIDs integer[10], nextProof integer)`, (err, res) => {
+client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining bool, proofsIDs integer[10], nextProof integer)`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
