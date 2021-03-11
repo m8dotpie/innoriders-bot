@@ -31,7 +31,7 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
 });
 
 bot.start(async (ctx) => {
-    console.log((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`).rows));
+    console.log((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows);
     // client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
     //     if (err) {
     //         console.log(err);
