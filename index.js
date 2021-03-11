@@ -1,4 +1,4 @@
-const { Composer } = require('micro-bot');
+const { Composer, Telegraf } = require('micro-bot');
 const { Client } = require('pg');
 
 const bot = new Composer();
