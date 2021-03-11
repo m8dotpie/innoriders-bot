@@ -14,6 +14,7 @@ const client = new Client({
 
 client.connect();
 
+console.log(`DROP TABLES ${curTable}`);
 client.query(`DROP TABLES ${curTable}`, (err, res) => {
     if (err) {
         console.log(err);
