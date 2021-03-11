@@ -1,2 +1,2 @@
-# innorider_bot
+# InnoRiders Club Bot
 InnoRiders Telegram Bot
