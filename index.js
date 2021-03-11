@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect();
 
-client.query('DROP TABLE proofData', (err, res) => {
+client.query('SHOW TABLES', (err, res) => {
     if (err) {
         console.log(err);
     } else {
