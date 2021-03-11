@@ -5,6 +5,9 @@ const bot = new Composer();
 
 const curTable = 'testData';
 
+const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training']]));
+const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
+
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -30,21 +33,27 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     }
 });
 
-bot.hears('Finished with proofs', (ctx) => {
+async function userExists(ctx) {
+    return (await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).length != 0;
+}
+
+bot.hears('Finished with proofs', async (ctx) => {
+    if (!(await userExists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
     console.log('Successfully sent training');
 });
 
-bot.hears('Forget about this training', (ctx) => {
+bot.hears('Forget about this training', async (ctx) => {
+    if (!(await userExists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
     console.log('Successfully removed training');
 });
 
 async function startTraining(ctx) {
-    const trainingMenu = Telegraf.Extra
-          .markdown()
-          .markup((m) => m.keyboard([
-              ['Finished with proofs'],
-              ['Forget about this training']
-          ]));
     await client.query(`UPDATE ${curTable} SET addingTraining=true WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!', trainingMenu);
 }
@@ -54,12 +63,8 @@ bot.hears('Add training', async (ctx) => {
 });
 
 bot.start(async (ctx) => {
-    const trainingMenu = Telegraf.Extra
-          .markdown()
-          .markup((m) => m.keyboard([
-              ['Add training']
-          ]));
-    if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
+    const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training']]));
+    if ((await userExists(ctx))) {
         ctx.reply('You already in da club!');
     } else {
         await client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
@@ -69,7 +74,7 @@ bot.start(async (ctx) => {
                 console.log('Successfully inserted.');
             }
         });
-        ctx.reply('Welcome to the club, mate!', trainingMenu);
+        ctx.reply('Welcome to the club, mate!', defaultMenu);
     }
 });
 
