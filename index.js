@@ -12,6 +12,7 @@ bot.hears('test', (ctx) => {
         pool.end();
     });
     console.log(dbURL);
+    console.log(process.env.PGHOST);
     ctx.telegram.sendMessage(ctx.chat.id, 'Alive and logged');
 });
 
