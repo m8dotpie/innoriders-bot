@@ -19,4 +19,6 @@ client.query('CREATE TABLE IF NOT EXISTS proofData (addingTraining bool, proofsI
     console.log(res);
 });
 
+await client.end();
+
 module.exports = bot;
