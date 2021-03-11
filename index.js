@@ -23,7 +23,13 @@ client.query('CREATE TABLE IF NOT EXISTS ${curTable} (user integer, addingTraini
 });
 
 bot.start((ctx) => {
-    client.query('INSERT INTO ${curTable} (user, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)');
+    client.query('INSERT INTO ${curTable} (user, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)', (err, res) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(res);
+        }
+    });
 });
 
 module.exports = bot;
