@@ -12,6 +12,8 @@ const client = new Client({
 
 client.connect();
 
+client.query('CREATE TABLE IF NOT EXISTS proofData (addingTraining bool, proofsIDs integer[10])');
+
 client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
