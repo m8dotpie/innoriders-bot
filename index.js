@@ -18,7 +18,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
-        console.log(res);
+        console.log("Successfully removed the table.");
     }
 });
 
@@ -26,7 +26,7 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     if (err) {
         console.log(err);
     } else {
-        console.log(res);
+        console.log("Successfully created table (\"if not existed\")");
     }
 });
 
@@ -38,7 +38,7 @@ bot.start(async (ctx) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(res);
+                console.log("Successfully inserted.");
             }
         });
         ctx.reply("Welcome to the club, mate!");
