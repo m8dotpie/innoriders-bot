@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "micro-bot": "^2.5.3"
-  }
+  },
   "main": "index.js",
   "scripts": {
      "start": "micro-bot"
