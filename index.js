@@ -34,9 +34,7 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
 });
 
 async function userExists(ctx) {
-    console.log(await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`));
-    console.log(await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`).length);
-    return (await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).length != 0;
+    return (await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0;
 }
 
 bot.hears('Finished with proofs', async (ctx) => {
