@@ -18,7 +18,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
-        console.log("Successfully removed the table.");
+        console.log('Successfully removed the table.');
     }
 });
 
@@ -26,27 +26,50 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     if (err) {
         console.log(err);
     } else {
-        console.log("Successfully created table (\"if not existed\")");
+        console.log('Successfully created table (\"if not existed\")');
     }
 });
 
-bot.start(async (ctx) => {
-    const testMenu = Telegraf.Extra
+bot.action('sendTraining', (ctx) => {
+    console.log('Successfully sent training');
+});
+
+bot.action('removeTraining', (ctx) => {
+    console.log('Successfully removed training');
+});
+
+async function startTraining(ctx) {
+    const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              m.callbackButton('Test button', 'test')
+              m.callbackButton('Finished with proofs', 'sendTraining')
+              m.callbackButton('Forget about this training', 'removeTraining')
+          ]));
+    await client.query(`INSERT INTO $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
+    ctx.reply('Waiting for proofs, bro!');
+}
+
+bot.hears('Add training', async (ctx) => {
+    startTraining(ctx);
+});
+
+bot.start(async (ctx) => {
+    const trainingMenu = Telegraf.Extra
+          .markdown()
+          .markup((m) => m.keyboard([
+              m.callbackButton('Add training', '')
           ]));
     if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
-        ctx.reply("You already in da club!");
+        ctx.reply('You already in da club!');
     } else {
         await client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log("Successfully inserted.");
+                console.log('Successfully inserted.');
             }
         });
-        ctx.reply("Welcome to the club, mate!", testMenu);
+        ctx.reply('Welcome to the club, mate!', trainingMenu);
     }
 });
 
