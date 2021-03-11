@@ -33,7 +33,7 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
 bot.start(async (ctx) => {
     const testMenu = Telegraf.Extra
           .markdown()
-          .markup((m) => m.inlineKeyboard([
+          .markup((m) => m.keyboard([
               m.callbackButton('Test button', 'test')
           ]));
     if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
