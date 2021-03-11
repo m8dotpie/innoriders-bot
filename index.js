@@ -45,7 +45,7 @@ async function startTraining(ctx) {
               ['Finished with proofs'],
               ['Forget about this training']
           ]));
-    await client.query(`UPDATE $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
+    await client.query(`UPDATE ${curTable} (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!');
 }
 
