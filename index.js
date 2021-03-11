@@ -30,11 +30,11 @@ client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining
     }
 });
 
-bot.hears('sendTraining', (ctx) => {
+bot.action('sendTraining', (ctx) => {
     console.log('Successfully sent training');
 });
 
-bot.hears('removeTraining', (ctx) => {
+bot.action('removeTraining', (ctx) => {
     console.log('Successfully removed training');
 });
 
@@ -42,14 +42,14 @@ async function startTraining(ctx) {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              m.callbackButton('Finished with proofs', 'sendTraining'),
-              m.callbackButton('Forget about this training', 'removeTraining')
+              [m.keyboardButton('Finished with proofs', 'sendTraining')],
+              [m.keyboardButton('Forget about this training', 'removeTraining')]
           ]));
     await client.query(`UPDATE $curTable (addingTraining) VALUES (true) WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!');
 }
 
-bot.hears('addTraining', async (ctx) => {
+bot.action('addTraining', async (ctx) => {
     startTraining(ctx);
 });
 
@@ -57,7 +57,7 @@ bot.start(async (ctx) => {
     const trainingMenu = Telegraf.Extra
           .markdown()
           .markup((m) => m.keyboard([
-              m.callbackButton('Add training', 'addTraining')
+              [m.keyboardButton('Add training', 'addTraining')]
           ]));
     if ((await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0) {
         ctx.reply('You already in da club!');
