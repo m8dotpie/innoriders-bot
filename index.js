@@ -14,9 +14,12 @@ client.connect();
 
 client.query('CREATE TABLE IF NOT EXISTS testData (addingTraining bool, proofsIDs integer[10], nextProof integer)', (err, res) => {
     if (err) {
-        throw err;
+        console.log(err);
+    } else {
+        console.log(res);
     }
-    console.log(res);
 });
+
+bot.start((ctx) => ctx.reply('Welcome'));
 
 module.exports = bot;
