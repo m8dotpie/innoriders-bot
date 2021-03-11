@@ -1,20 +1,25 @@
 const { Composer } = require('micro-bot');
-const { Pool } = require('pg');
+const { Client } = require('pg');
 
 const bot = new Composer();
 
-const dbURL = process.env.DATABASE_URL;
+const { Client } = require('pg');
 
-console.log(dbURL);
-console.log(process.env.PGHOST);
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
-bot.hears('test', (ctx) => {
-    const pool = new Pool();
-    pool.query('SELECT NOW()', (err, res) => {
-        console.log(err, res);
-        pool.end();
-    });
-    ctx.telegram.sendMessage(ctx.chat.id, 'Alive and logged');
+client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+        console.log(JSON.stringify(row));
+    }
+    client.end();
 });
 
 module.exports = bot;
