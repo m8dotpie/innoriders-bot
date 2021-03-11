@@ -52,7 +52,7 @@ bot.hears('Forget about this training', async (ctx) => {
         return;
     }
     console.log('Successfully removed training');
-    ctx.reply('No problem, looking forward to hearing from you!', defaultKeyboard);
+    ctx.reply('No problem, looking forward to hearing from you!', defaultMenu);
 });
 
 async function startTraining(ctx) {
