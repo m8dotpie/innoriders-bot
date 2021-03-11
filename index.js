@@ -50,7 +50,7 @@ async function startTraining(ctx) {
 }
 
 bot.hears('Add training', async (ctx) => {
-    startTraining(ctx);
+    await startTraining(ctx);
 });
 
 bot.start(async (ctx) => {
