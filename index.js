@@ -1,4 +1,5 @@
 const { Composer } = require('micro-bot');
+const { Pool } = require('pg');
 
 const bot = new Composer();
 
