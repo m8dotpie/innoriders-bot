@@ -1,7 +1,9 @@
 const { Composer, Telegraf } = require('micro-bot');
 const { Client } = require('pg');
+const commandParts = require('telegraf-command-parts');
 
 const bot = new Composer();
+bot.use(commandParts);
 
 const curTable = 'testData';
 
@@ -69,7 +71,7 @@ bot.hears('Add training', async (ctx) => {
 });
 
 bot.command('email', (ctx) => {
-    console.log(ctx.message);
+    console.log(ctx.state.command.args);
 });
 
 bot.start(async (ctx) => {
