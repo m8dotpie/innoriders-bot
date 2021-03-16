@@ -56,6 +56,10 @@ bot.hears('Forget about this training', async (ctx) => {
 });
 
 async function startTraining(ctx) {
+    if (!(await userEsists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
     await client.query(`UPDATE ${curTable} SET addingTraining=true WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!', trainingMenu);
 }
