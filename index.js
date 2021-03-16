@@ -70,7 +70,7 @@ bot.hears('Add training', async (ctx) => {
     await startTraining(ctx);
 });
 
-bot.command('email', (ctx) => {
+bot.command('/email', (ctx) => {
     console.log("Here the text:");
     console.log(ctx.state.command.text);
 });
