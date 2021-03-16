@@ -3,7 +3,6 @@ const { Client } = require('pg');
 const commandParts = require('telegraf-command-parts');
 
 const bot = new Composer();
-bot.use(commandParts);
 
 const curTable = 'testData';
 
@@ -71,8 +70,8 @@ bot.hears('Add training', async (ctx) => {
 });
 
 bot.command('email', (ctx) => {
-    console.log("Here the text:");
-    console.log(ctx.state.command.text);
+    console.log("Here the email:");
+    console.log(ctx.state.command);
 });
 
 bot.start(async (ctx) => {
