@@ -25,7 +25,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     }
 });
 
-client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, addingTraining bool, proofsIDs integer[10], nextProof integer)`, (err, res) => {
+client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingTraining bool, proofsIDs integer[10], nextProof integer)`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
@@ -56,16 +56,20 @@ bot.hears('Forget about this training', async (ctx) => {
 });
 
 async function startTraining(ctx) {
-    if (!(await userEsists(ctx))) {
-        ctx.reply("I'm not sure I know who are you. Try registering with /start");
-        return;
-    }
     await client.query(`UPDATE ${curTable} SET addingTraining=true WHERE id=${ctx.from.id}`);
     ctx.reply('Waiting for proofs, bro!', trainingMenu);
 }
 
 bot.hears('Add training', async (ctx) => {
+    if (!(await userEsists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
     await startTraining(ctx);
+});
+
+bot.command('email', (ctx) => {
+    console.log(ctx.message);
 });
 
 bot.start(async (ctx) => {
