@@ -71,7 +71,7 @@ bot.hears('Add training', async (ctx) => {
 
 bot.command('email', (ctx) => {
     console.log("Here the email:");
-    console.log(ctx.state.command);
+    console.log(ctx.message.text);
 });
 
 bot.start(async (ctx) => {
