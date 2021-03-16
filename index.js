@@ -3,7 +3,7 @@ const { Client } = require('pg');
 const commandParts = require('telegraf-command-parts');
 
 const bot = new Composer();
-bot.use(commandParts);
+Telegraf.use(commandParts);
 
 const curTable = 'testData';
 
