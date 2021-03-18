@@ -58,6 +58,9 @@ bot.hears('Finished with proofs', async (ctx) => {
         for (var i = 0; i < proofs.length; ++i) {
             ctx.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
         }
+        let date = new Date(ctx.message.date * 1000);
+        date.setHours(date.getHours() + 3);
+        date.setMonth(date.getMonth() + 1);
         ctx.telegram.sendMessage(process.env.CHECK_CHAT,
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
