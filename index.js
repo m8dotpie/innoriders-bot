@@ -123,6 +123,14 @@ bot.command('/notify', async (ctx) => {
 });
 
 bot.on(['photo', 'video', 'document'], async (ctx) => {
+    if (!(await userExists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
+    if (!(await client.query(`SELECT addingTraining FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].addingTraining) {
+        ctx.reply("You are not currently adding training. Consider using 'Add training' section.");
+        return;
+    }
     let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
     if (proofs == null) {
         proofs = [ctx.message.message_id];
@@ -137,9 +145,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
         }
     }
     result += "]";
-    console.log(result);
     await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
-    console.log((await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs);
 });
 
 bot.command('email', async (ctx) => {
