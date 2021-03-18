@@ -49,6 +49,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
         return;
     }
+    let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
     console.log('Successfully sent training');
     ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
 });
@@ -146,6 +147,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     }
     result += "]";
     await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
+    ctx.reply('I will remember this one. Looking for the next proofs!');
 });
 
 bot.command('email', async (ctx) => {
