@@ -124,11 +124,10 @@ bot.command('/notify', async (ctx) => {
 
 bot.on(['photo', 'video', 'document'], async (ctx) => {
     let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
-    console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
     if (proofs == null) {
         proofs = [ctx.message.message_id];
     } else {
-        proofs = proofs[0].push(ctx.message.message_id);
+        proofs = proofs.push(ctx.message.message_id);
     }
     let result = "ARRAY[";
     for (i in proofs) {
@@ -139,7 +138,6 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     }
     result += "]";
     console.log(result);
-    console.log(proofs);
     await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
     console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
 });
