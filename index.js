@@ -50,7 +50,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         return;
     }
     console.log('Successfully sent training');
-    ctx.reply('Great, club admins will review you training soon!', defaultMenu);
+    ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
 });
 
 bot.hears('Forget about this training', async (ctx) => {
@@ -126,9 +126,7 @@ bot.start(async (ctx) => {
         });
         let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
         ctx.reply('Welcome to the club, mate!' +
-                  '\nConsider reading \"About\" section.' +
-                  'Moreover, if you are a student and want to get hours, ' +
-                  'you should add you innomail with /email [INNOMAIL]', (isAdmin ? adminMenu : defaultMenu));
+                  '\nConsider reading \"About\" section.', (isAdmin ? adminMenu : defaultMenu));
     }
 });
 
