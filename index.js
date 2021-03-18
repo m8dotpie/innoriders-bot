@@ -65,6 +65,7 @@ bot.hears('Forget about this training', async (ctx) => {
 
 async function startTraining(ctx) {
     await client.query(`UPDATE ${curTable} SET addingTraining=true WHERE id=${ctx.from.id}`);
+    console.log(await client.query(`SELECT addingTraining FROM ${curTalbe} WHERE id=${ctx.from.id}`));
     ctx.reply('Waiting for proofs, bro!', trainingMenu);
 }
 
