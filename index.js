@@ -82,10 +82,9 @@ bot.command('email', async (ctx) => {
     } else {
         let result = str[1];
         console.log(`UPDATE ${curTable} SET email=${"\"" + result + "\""} WHERE id=${ctx.from.id}`);
-        await client.query(`UPDATE ${curTable} SET email=${result} WHERE id=${ctx.from.id}`);
+        await client.query(`UPDATE ${curTable} SET email=${"\"" + result + "\""} WHERE id=${ctx.from.id}`);
         ctx.reply('Great! I will remember that!');
     }
-    console.log(ctx.message.text.match(/\/email\s(\w+\.\w+\@innopolis\.(university|ru))/)[1] + " of " + ctx.from.id);
 });
 
 bot.start(async (ctx) => {
