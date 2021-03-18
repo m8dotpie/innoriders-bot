@@ -56,16 +56,13 @@ bot.hears('Finished with proofs', async (ctx) => {
     if (proofs == null) {
         ctx.reply("Your training can not be submitted without proofs. Please add at least one.");
     } else {
-        console.log(proofs);
-        console.log(ctx.message.message_id);
         for (var i = 0; i < proofs.length; ++i) {
-            console.log(proofs[i]);
-            ctx.telegram.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
+            await ctx.telegram.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
         }
         let date = new Date(ctx.message.date * 1000);
         date.setHours(date.getHours() + 3);
         date.setMonth(date.getMonth() + 1);
-        ctx.telegram.sendMessage(process.env.CHECK_CHAT,
+        await ctx.telegram.sendMessage(process.env.CHECK_CHAT,
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
                                  + 'Email: ' + userData.email
@@ -87,7 +84,8 @@ bot.hears('Finished with proofs', async (ctx) => {
                                          ]
                                      }
                                  });
-        ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
+        await ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
+        await client.query(`UPDATE ${curTable} SET proofs=null WHERE id=${ctx.from.id}`);
     }
 });
 
