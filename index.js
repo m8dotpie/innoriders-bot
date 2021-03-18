@@ -72,6 +72,7 @@ bot.hears('Add training', async (ctx) => {
 });
 
 bot.command('email', (ctx) => {
+    console.log(ctx.message.text);
     console.log("Here the email:");
     console.log(ctx.message.text.match("\/email\s\w+\.\w+\@innopolis\.(university|ru)") + " of " + ctx.from.id);
 });
