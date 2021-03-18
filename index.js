@@ -129,7 +129,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     } else {
         proofs = proofs[0] + ctx.message.message_id;
     }
-    let result = "[";
+    let result = "ARRAY[";
     for (i in proofs) {
         result += proofs[i];
         if (i + 1 < proofs.length) {
@@ -139,7 +139,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     result += "]";
     console.log(result);
     console.log(proofs);
-    // await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
+    await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
 });
 
 bot.command('email', async (ctx) => {
