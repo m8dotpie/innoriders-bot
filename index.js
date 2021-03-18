@@ -60,7 +60,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         console.log(ctx.message.message_id);
         for (var i = 0; i < proofs.length; ++i) {
             console.log(proofs[i]);
-            ctx.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
+            ctx.telegram.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
         }
         let date = new Date(ctx.message.date * 1000);
         date.setHours(date.getHours() + 3);
