@@ -40,7 +40,7 @@ async function userExists(ctx) {
 }
 
 async function hasEmail(ctx) {
-    console.log(await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`));
+    console.log("Email field: " + (await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)));
     return (await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)) != "";
 }
 
@@ -90,7 +90,6 @@ bot.command('email', async (ctx) => {
         ctx.reply("I\'m not sure you have provided correct credentials. Try again.");
     } else {
         let result = str[1];
-        console.log(`UPDATE ${curTable} SET email=${"\'" + result + "\'"} WHERE id=${ctx.from.id}`);
         await client.query(`UPDATE ${curTable} SET email=${"\'" + result + "\'"} WHERE id=${ctx.from.id}`);
         ctx.reply('Great! I will remember that!');
     }
