@@ -140,6 +140,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     console.log(result);
     console.log(proofs);
     await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
+    console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
 });
 
 bot.command('email', async (ctx) => {
