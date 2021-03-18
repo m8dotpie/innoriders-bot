@@ -81,6 +81,7 @@ bot.command('email', async (ctx) => {
         ctx.reply("I\'m not sure you have provided correct credentials. Try again.");
     } else {
         let result = ctx.message.text.match(/\/email\s(\w+\.\w+\@innopolis\.(university|ru))/)[1];
+        console.log(`UPDATE ${curTable} SET email=${result} WHERE id=${ctx.from.id}`);
         await client.query(`UPDATE ${curTable} SET email=${result} WHERE id=${ctx.from.id}`);
         ctx.reply('Great! I will remember that!');
     }
