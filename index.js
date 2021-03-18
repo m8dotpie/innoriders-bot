@@ -6,7 +6,8 @@ const bot = new Composer();
 
 const curTable = 'testData';
 
-const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training']]));
+const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training', 'About']]));
+const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training', 'Notify all members', 'About']]));
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
 
 const client = new Client({
@@ -76,7 +77,6 @@ bot.command('email', (ctx) => {
 });
 
 bot.start(async (ctx) => {
-    const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training']]));
     if ((await userExists(ctx))) {
         ctx.reply('You already in da club!');
     } else {
@@ -87,7 +87,8 @@ bot.start(async (ctx) => {
                 console.log('Successfully inserted.');
             }
         });
-        ctx.reply('Welcome to the club, mate!', defaultMenu);
+        let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
+        ctx.reply('Welcome to the club, mate!', (isAdmin ? adminMenu : defaultMenu));
     }
 });
 
