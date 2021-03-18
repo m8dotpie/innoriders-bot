@@ -139,7 +139,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     result += "]";
     console.log(result);
     await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
-    console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
+    console.log((await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs);
 });
 
 bot.command('email', async (ctx) => {
