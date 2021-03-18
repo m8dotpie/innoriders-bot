@@ -4,7 +4,7 @@ const commandParts = require('telegraf-command-parts');
 
 const bot = new Composer();
 
-const curTable = 'testData';
+const curTable = 'prodData';
 
 const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['About']]));
 const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['Notify all members'], ['About']]));
@@ -20,14 +20,6 @@ const client = new Client({
 });
 
 client.connect();
-
-client.query(`DROP TABLE ${curTable}`, (err, res) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('Successfully removed the table.');
-    }
-});
 
 client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingtraining bool, proofs integer[], nextProof integer)`, (err, res) => {
     if (err) {
@@ -118,9 +110,9 @@ bot.hears('Forget about this training', async (ctx) => {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
         return;
     }
-    console.log('Successfully removed training');
     let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
     ctx.reply('No problem, looking forward to hearing from you!', (isAdmin ? adminMenu : defaultMenu));
+    await client.query(`UPDATE ${curTable} SET proofs=null WHERE id=${ctx.from.id}`);
 });
 
 async function startTraining(ctx) {
