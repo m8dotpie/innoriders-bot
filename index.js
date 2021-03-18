@@ -28,7 +28,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     }
 });
 
-client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingTraining bool, proofsIDs integer[10], nextProof integer)`, (err, res) => {
+client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingTraining bool, proofs integer[], nextProof integer)`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
@@ -113,12 +113,18 @@ bot.command('/notify', async (ctx) => {
     }
     if (ctx.message.text.length <= 8) {
         ctx.reply('You did not provide any notification for riders :(');
+        return;
     }
     let notification = ctx.message.text.match(/\/notify\s(.+)/)[1];
     let usersIds = (await client.query(`SELECT id FROM ${curTable}`)).rows;
     usersIds.forEach((data) => {
         ctx.telegram.sendMessage(data.id, notification);
     });
+});
+
+bot.on(['photo', 'video', 'document'], async (ctx) => {
+    let proofs = await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`);
+    console.log(proofs);
 });
 
 bot.command('email', async (ctx) => {
