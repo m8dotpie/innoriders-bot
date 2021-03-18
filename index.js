@@ -71,9 +71,19 @@ bot.hears('Add training', async (ctx) => {
     await startTraining(ctx);
 });
 
-bot.command('email', (ctx) => {
-    console.log(ctx.message.text);
-    console.log("Here the email:");
+bot.command('email', async (ctx) => {
+    if (!(await userExists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
+    let str = ctx.message.text.match(/\/email\s(\w+\.\w+\@innopolis\.(university|ru))/);
+    if (str == null) {
+        ctx.reply("I\'m not sure you have provided correct credentials. Try again.");
+    } else {
+        let result = ctx.message.text.match(/\/email\s(\w+\.\w+\@innopolis\.(university|ru))/)[1];
+        await client.query(`UPDATE ${curTable} SET email=${result} WHERE id=${ctx.from.id}`);
+        ctx.reply('Great! I will remember that!');
+    }
     console.log(ctx.message.text.match(/\/email\s(\w+\.\w+\@innopolis\.(university|ru))/)[1] + " of " + ctx.from.id);
 });
 
