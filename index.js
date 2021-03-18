@@ -61,7 +61,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         let date = new Date(ctx.message.date * 1000);
         date.setHours(date.getHours() + 3);
         date.setMonth(date.getMonth() + 1);
-        ctx.telegram.sendMessage(process.env.CHECK_CHAT,
+        ctx.telegram.sendMessage(process.env.CHECK_CHAT, ctx.from.id,
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
                                  + 'Email: ' + userData.email
