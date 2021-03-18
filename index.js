@@ -39,6 +39,11 @@ async function userExists(ctx) {
     return (await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.length != 0;
 }
 
+async function hasEmail(ctx) {
+    console.log(await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`));
+    return (await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)) != "";
+}
+
 bot.hears('Finished with proofs', async (ctx) => {
     if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
@@ -66,6 +71,10 @@ async function startTraining(ctx) {
 bot.hears('Add training', async (ctx) => {
     if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
+    if (!(await hasEmail)) {
+        ctx.reply("You have to provide your innopolis email first. Try /email [INNOMAIL]");
         return;
     }
     await startTraining(ctx);
