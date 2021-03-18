@@ -6,8 +6,8 @@ const bot = new Composer();
 
 const curTable = 'testData';
 
-const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training', 'About']]));
-const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training', 'Notify all members', 'About']]));
+const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['About']]));
+const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['Notify all members'], ['About']]));
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
 
 const client = new Client({
