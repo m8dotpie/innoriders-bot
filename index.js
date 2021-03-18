@@ -9,7 +9,7 @@ const curTable = 'testData';
 const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['About']]));
 const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['Notify all members'], ['About']]));
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
-const aboutMenu = Telegraf.Extra .markdown() .markup((m) => m.inlineKeyboard([m.urlButton('Instagram', 'm8dotpie.co.uk')]));
+const aboutMenu = Telegraf.Extra .markdown() .markup((m) => m.inlineKeyboard([[m.urlButton('Instagram', 'instagram.com/innoriders/')], [m.urlButton('Sources', 'github.com/m8dotpie/innoriders-bot')]]));
 
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
