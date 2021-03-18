@@ -5,6 +5,7 @@ const commandParts = require('telegraf-command-parts');
 const bot = new Composer();
 
 const curTable = 'testData';
+
 const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['About']]));
 const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['Notify all members'], ['About']]));
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
@@ -110,7 +111,7 @@ bot.command('/notify', async (ctx) => {
     if (!isAdmin) {
         return;
     }
-    let notification = ctx.message.from.match(/\/notify\s(.+)/)[1];
+    let notification = ctx.message.text.match(/\/notify\s(.+)/)[1];
     let usersIds = (await client.query(`SELECT id FROM ${curTable}`));
     for (id in userIds.rows) {
         console.log(id);
