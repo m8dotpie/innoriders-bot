@@ -56,13 +56,10 @@ bot.hears('Finished with proofs', async (ctx) => {
     if (proofs == null) {
         ctx.reply("Your training can not be submitted without proofs. Please add at least one.");
     } else {
-        for (var i = 0; i < proofs.length; ++i) {
-            await ctx.telegram.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
-        }
         let date = new Date(ctx.message.date * 1000);
         date.setHours(date.getHours() + 3);
         date.setMonth(date.getMonth() + 1);
-        await ctx.telegram.sendMessage(process.env.CHECK_CHAT,
+        ctx.telegram.sendMessage(process.env.CHECK_CHAT,
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
                                  + 'Email: ' + userData.email
@@ -82,6 +79,10 @@ bot.hears('Finished with proofs', async (ctx) => {
                                              [{text: "Approve", callback_data: "approve" + ctx.from.id}],
                                              [{text: "Unapprove", callback_data: "unapprove" + ctx.from.id}]
                                          ]
+                                     }
+                                 }).then(async () => {
+                                     for (var i = 0; i < proofs.length; ++i) {
+                                         await ctx.telegram.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
                                      }
                                  });
         await ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
