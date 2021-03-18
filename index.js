@@ -56,6 +56,7 @@ bot.hears('Finished with proofs', async (ctx) => {
     if (proofs == null) {
         ctx.reply("Your training can not be submitted without proofs. Please add at least one.");
     } else {
+        console.log(proofs);
         for (var i = 0; i < proofs.length; ++i) {
             ctx.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
         }
@@ -66,7 +67,7 @@ bot.hears('Finished with proofs', async (ctx) => {
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
                                  + 'Email: ' + userData.email
-                                 + 'Date: '
+                                 + '\nDate: '
                                  + date.getDate()
                                  + '/'
                                  + date.getMonth()
