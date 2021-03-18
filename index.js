@@ -90,6 +90,29 @@ bot.hears('Finished with proofs', async (ctx) => {
     }
 });
 
+bot.action('approved', (ctx) => ctx.deleteMessage());
+
+bot.action(RegExp('^(approve)\/*'), async (ctx) => {
+    ctx.sendMessage(process.env.APPROVE_CHAT, ctx.message.text,
+                    {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [{text: "Approved", callback_data: "approved"}]
+                            ]
+                        }
+                    }).then(() => {
+                        ctx.deleteMessage();
+                    });
+    console.log(ctx.callbackQuery.data);
+    ctx.telegram.sendMessage(Number(ctx.callbackQuery.data.slice(7)), 'Your hours were approved!');
+});
+
+bot.action(RegExp('^(unapprove)\/*'), async (ctx) => {
+    ctx.deleteMessage();
+    console.log(ctx.callbackQuery.data);
+    ctx.telegram.sendMessage(Number(ctx.callbackQuery.data.slice(9)), 'Your hours were not approved.');
+});
+
 bot.hears('Forget about this training', async (ctx) => {
     if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
