@@ -73,7 +73,7 @@ bot.hears('Add training', async (ctx) => {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
         return;
     }
-    if (!(await hasEmail)) {
+    if (!(await hasEmail(ctx))) {
         ctx.reply("You have to provide your innopolis email first. Try /email [INNOMAIL]");
         return;
     }
