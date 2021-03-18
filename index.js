@@ -50,8 +50,38 @@ bot.hears('Finished with proofs', async (ctx) => {
         return;
     }
     let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
-    console.log('Successfully sent training');
-    ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
+    let userData = (await client.query(`SELECT * FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0];
+    let proofs = userData.proofs;
+    if (proofs == null) {
+        ctx.reply("Your training can not be submitted without proofs. Please add at least one.");
+    } else {
+        for (var i = 0; i < proofs.length; ++i) {
+            ctx.forwardMessage(process.env.CHECK_CHAT, ctx.from.id, proofs[i]);
+        }
+        ctx.telegram.sendMessage(process.env.CHECK_CHAT,
+                                 'Recieved new training from @'
+                                 + ctx.from.username + '\n'
+                                 + 'Email: ' + userData.email
+                                 + 'Date: '
+                                 + date.getDate()
+                                 + '/'
+                                 + date.getMonth()
+                                 + '/'
+                                 + date.getFullYear()
+                                 + ' '
+                                 + date.getHours()
+                                 + ':'
+                                 + date.getMinutes(),
+                                 {
+                                     reply_markup: {
+                                         inline_keyboard: [
+                                             [{text: "Approve", callback_data: "approve" + ctx.from.id}],
+                                             [{text: "Unapprove", callback_data: "unapprove" + ctx.from.id}]
+                                         ]
+                                     }
+                                 });
+        ctx.reply('Great, club admins will review you training soon!', (isAdmin ? adminMenu : defaultMenu));
+    }
 });
 
 bot.hears('Forget about this training', async (ctx) => {
