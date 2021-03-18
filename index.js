@@ -1,4 +1,4 @@
-const { Telegram, Composer, Telegraf } = require('micro-bot');
+const { Composer, Telegraf } = require('micro-bot');
 const { Client } = require('pg');
 const commandParts = require('telegraf-command-parts');
 
@@ -114,7 +114,7 @@ bot.command('/notify', async (ctx) => {
     let notification = ctx.message.text.match(/\/notify\s(.+)/)[1];
     let usersIds = (await client.query(`SELECT id FROM ${curTable}`)).rows;
     usersIds.forEach((data) => {
-        Telegram.sendMessage(data.id, notification);
+        ctx.telegram.sendMessage(data.id, notification);
     });
 });
 
