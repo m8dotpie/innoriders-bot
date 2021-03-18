@@ -83,16 +83,16 @@ bot.hears('Add training', async (ctx) => {
 bot.hears('About', (ctx) => {
     ctx.reply('Welcome to the riders club!\n'
               + 'This bot was designed to make life '
-              + 'of innopolis riders much easier. '
-              + 'If you want to get spothours for riding, '
+              + 'of innopolis riders much easier.\n'
+              + '1. If you want to get sporthours for riding, '
               + 'then you should provide your innopolis email '
               + 'once and forever with /email [INNOMAIL] and '
-              + 'follow instructions in \'Add training\' section. '
-              + 'Some of the material used for proofs, may be published '
-              + 'to innoriders instagram to prove club activity. '
-              + 'It is recommended to subscribe and follow our'
-              + 'Instgram. Moreover, this bot is completely '
-              + 'OpenSourced, so you are free to star its respository :)'
+              + 'follow instructions in \'Add training\' section.\n'
+              + '2. Some of the material used for proofs, may be published '
+              + 'to innoriders instagram to prove club activity.\n'
+              + '3. It is recommended to subscribe and follow our'
+              + 'Instgram.\n4. Moreover, this bot is completely '
+              + 'open source, so you are free to star its respository :D '
               + '\(Contributions, fixes and anything is accepted as well\)', aboutMenu);
 });
 
