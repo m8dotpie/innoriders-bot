@@ -54,7 +54,8 @@ bot.hears('Forget about this training', async (ctx) => {
         return;
     }
     console.log('Successfully removed training');
-    ctx.reply('No problem, looking forward to hearing from you!', defaultMenu);
+    let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
+    ctx.reply('No problem, looking forward to hearing from you!', (isAdmin ? adminMenu : defaultMenu));
 });
 
 async function startTraining(ctx) {
@@ -72,8 +73,7 @@ bot.hears('Add training', async (ctx) => {
 
 bot.command('email', (ctx) => {
     console.log("Here the email:");
-    console.log(ctx.message.text);
-    console.log(ctx.from.id);
+    console.log(ctx.message.text.match("\/email\s\w+\.\w+\@innopolis\.(university|ru)") + " of " + ctx.from.id);
 });
 
 bot.start(async (ctx) => {
