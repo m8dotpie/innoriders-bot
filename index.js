@@ -124,11 +124,15 @@ bot.command('/notify', async (ctx) => {
 
 bot.on(['photo', 'video', 'document'], async (ctx) => {
     let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
+    console.log("Proofs extracted from db: ");
+    console.log(proofs);
     if (proofs == null) {
         proofs = [ctx.message.message_id];
     } else {
         proofs = proofs.push(ctx.message.message_id);
     }
+    console.log("Proofs after adding one element:");
+    console.log(proofs);
     let result = "ARRAY[";
     for (i in proofs) {
         result += proofs[i];
