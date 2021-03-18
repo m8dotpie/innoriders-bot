@@ -98,6 +98,25 @@ bot.hears('About', (ctx) => {
               + '\(Contributions, fixes and anything is accepted as well\)', aboutMenu);
 });
 
+bot.hears('Notify all members', (ctx) => {
+    let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
+    if (!isAdmin) {
+        return;
+    }
+    ctx.reply('Send your notification in the format /notify [INFO]');
+});
+
+bot.command('/notify', async (ctx) => {
+    if (!isAdmin) {
+        return;
+    }
+    let notification = ctx.message.from.match(/\/notify\s(.+)/)[1];
+    let usersIds = (await client.query(`SELECT id FROM ${curTable}`));
+    for (id in userIds.rows) {
+        console.log(id);
+    }
+});
+
 bot.command('email', async (ctx) => {
     if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
