@@ -93,8 +93,7 @@ bot.hears('Finished with proofs', async (ctx) => {
 bot.action('approved', (ctx) => ctx.deleteMessage());
 
 bot.action(RegExp('^(approve)\/*'), async (ctx) => {
-    console.log(ctx);
-    ctx.sendMessage(process.env.APPROVE_CHAT, ctx.message.text,
+    ctx.sendMessage(process.env.APPROVE_CHAT, ctx.update.message.text,
                     {
                         reply_markup: {
                             inline_keyboard: [
