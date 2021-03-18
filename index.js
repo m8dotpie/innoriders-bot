@@ -127,7 +127,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
     if (proofs.length == 0) {
         proofs = [ctx.message.message_id];
     } else {
-        proofs = proofs[0] + ctx.message.message_id;
+        proofs = proofs[0].push(ctx.message.message_id);
     }
     let result = "ARRAY[";
     for (i in proofs) {
