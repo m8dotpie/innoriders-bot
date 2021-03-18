@@ -63,7 +63,7 @@ async function startTraining(ctx) {
 }
 
 bot.hears('Add training', async (ctx) => {
-    if (!(await userEsists(ctx))) {
+    if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
         return;
     }
