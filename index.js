@@ -124,6 +124,7 @@ bot.command('/notify', async (ctx) => {
 
 bot.on(['photo', 'video', 'document'], async (ctx) => {
     let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows;
+    console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
     if (proofs.length == 0) {
         proofs = [ctx.message.message_id];
     } else {
