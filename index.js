@@ -111,6 +111,9 @@ bot.command('/notify', async (ctx) => {
     if (!isAdmin) {
         return;
     }
+    if (ctx.message.text.length <= 8) {
+        ctx.reply('You did not provide any notification for riders :(');
+    }
     let notification = ctx.message.text.match(/\/notify\s(.+)/)[1];
     let usersIds = (await client.query(`SELECT id FROM ${curTable}`)).rows;
     usersIds.forEach((data) => {
