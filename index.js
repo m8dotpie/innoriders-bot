@@ -107,6 +107,7 @@ bot.hears('Notify all members', (ctx) => {
 });
 
 bot.command('/notify', async (ctx) => {
+    let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
     if (!isAdmin) {
         return;
     }
