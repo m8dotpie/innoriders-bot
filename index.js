@@ -112,8 +112,8 @@ bot.command('/notify', async (ctx) => {
         return;
     }
     let notification = ctx.message.text.match(/\/notify\s(.+)/)[1];
-    let usersIds = (await client.query(`SELECT id FROM ${curTable}`));
-    usersIds.ForEach((data) => {
+    let usersIds = (await client.query(`SELECT id FROM ${curTable}`)).rows;
+    usersIds.forEach((data) => {
         console.log(data.id);
     });
 });
