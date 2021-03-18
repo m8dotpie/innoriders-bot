@@ -9,6 +9,7 @@ const curTable = 'testData';
 const defaultMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['About']]));
 const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add training'], ['Notify all members'], ['About']]));
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
+const aboutMenu = Telegraf.Extra .markdown() .markup((m) => m.inlineKeyboard([m.urlButton('Instagram', 'm8dotpie.co.uk')]));
 
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -79,6 +80,22 @@ bot.hears('Add training', async (ctx) => {
     await startTraining(ctx);
 });
 
+bot.hears('About', (ctx) => {
+    ctx.reply('Welcome to the riders club!\n'
+              + 'This bot was designed to make life '
+              + 'of innopolis riders much easier. '
+              + 'If you want to get spothours for riding, '
+              + 'then you should provide your innopolis email '
+              + 'once and forever with /email [INNOMAIL] and '
+              + 'follow instructions in \'Add training\' section. '
+              + 'Some of the material used for proofs, may be published '
+              + 'to innoriders instagram to prove club activity. '
+              + 'It is recommended to subscribe and follow our'
+              + 'Instgram. Moreover, this bot is completely '
+              + 'OpenSourced, so you are free to star its respository :)'
+              + '\(Contributions, fixes and anything is accepted as well\)', aboutMenu);
+});
+
 bot.command('email', async (ctx) => {
     if (!(await userExists(ctx))) {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
@@ -106,7 +123,10 @@ bot.start(async (ctx) => {
             }
         });
         let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
-        ctx.reply('Welcome to the club, mate!', (isAdmin ? adminMenu : defaultMenu));
+        ctx.reply('Welcome to the club, mate!' +
+                  '\nConsider reading \"About\" section.' +
+                  'Moreover, if you are a student and want to get hours, ' +
+                  'you should add you innomail with /email [INNOMAIL]', (isAdmin ? adminMenu : defaultMenu));
     }
 });
 
