@@ -40,8 +40,7 @@ async function userExists(ctx) {
 }
 
 async function hasEmail(ctx) {
-    console.log((await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)));
-    return (await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)) != "";
+    return (await client.query(`SELECT email FROM ${curTable} WHERE id=${ctx.from.id}`)).rows.email != null;
 }
 
 bot.hears('Finished with proofs', async (ctx) => {
