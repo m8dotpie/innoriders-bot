@@ -123,9 +123,9 @@ bot.command('/notify', async (ctx) => {
 });
 
 bot.on(['photo', 'video', 'document'], async (ctx) => {
-    let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows;
+    let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
     console.log(await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`));
-    if (proofs.length == 0) {
+    if (proofs == null) {
         proofs = [ctx.message.message_id];
     } else {
         proofs = proofs[0].push(ctx.message.message_id);
