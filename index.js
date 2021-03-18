@@ -217,8 +217,9 @@ bot.command('email', async (ctx) => {
 });
 
 bot.start(async (ctx) => {
+    let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
     if ((await userExists(ctx))) {
-        ctx.reply('You already in da club!');
+        ctx.reply('You already in da club!', (isAdmin ? adminMenu : defaultMenu));
     } else {
         await client.query(`INSERT INTO ${curTable} (id, addingtraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
             if (err) {
@@ -227,7 +228,6 @@ bot.start(async (ctx) => {
                 console.log('Successfully inserted.');
             }
         });
-        let isAdmin = (process.env.ADMIN1ID == ctx.from.id || process.env.ADMIN2ID == ctx.from.id);
         ctx.reply('Welcome to the club, mate!' +
                   '\nConsider reading \"About\" section.', (isAdmin ? adminMenu : defaultMenu));
     }
