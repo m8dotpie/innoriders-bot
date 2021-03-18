@@ -28,7 +28,7 @@ client.query(`DROP TABLE ${curTable}`, (err, res) => {
     }
 });
 
-client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingTraining bool, proofs integer[], nextProof integer)`, (err, res) => {
+client.query(`CREATE TABLE IF NOT EXISTS ${curTable} (id integer, email text, addingtraining bool, proofs integer[], nextProof integer)`, (err, res) => {
     if (err) {
         console.log(err);
     } else {
@@ -64,8 +64,8 @@ bot.hears('Forget about this training', async (ctx) => {
 });
 
 async function startTraining(ctx) {
-    await client.query(`UPDATE ${curTable} SET addingTraining=true WHERE id=${ctx.from.id}`);
-    console.log(await client.query(`SELECT addingTraining FROM ${curTable} WHERE id=${ctx.from.id}`));
+    await client.query(`UPDATE ${curTable} SET addingtraining=true WHERE id=${ctx.from.id}`);
+    console.log(await client.query(`SELECT addingtraining FROM ${curTable} WHERE id=${ctx.from.id}`));
     ctx.reply('Waiting for proofs, bro!', trainingMenu);
 }
 
@@ -128,7 +128,7 @@ bot.on(['photo', 'video', 'document'], async (ctx) => {
         ctx.reply("I'm not sure I know who are you. Try registering with /start");
         return;
     }
-    if (!(await client.query(`SELECT addingTraining FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].addingTraining) {
+    if (!(await client.query(`SELECT addingtraining FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].addingtraining) {
         ctx.reply("You are not currently adding training. Consider using 'Add training' section.");
         return;
     }
@@ -168,7 +168,7 @@ bot.start(async (ctx) => {
     if ((await userExists(ctx))) {
         ctx.reply('You already in da club!');
     } else {
-        await client.query(`INSERT INTO ${curTable} (id, addingTraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
+        await client.query(`INSERT INTO ${curTable} (id, addingtraining, nextProof) VALUES (${ctx.from.id}, false, 0)`, (err, res) => {
             if (err) {
                 console.log(err);
             } else {
