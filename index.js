@@ -11,6 +11,8 @@ const adminMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Add tr
 const trainingMenu = Telegraf.Extra .markdown() .markup((m) => m.keyboard([['Finished with proofs'], ['Forget about this training']]));
 const aboutMenu = Telegraf.Extra .markdown() .markup((m) => m.inlineKeyboard([[m.urlButton('Instagram', 'instagram.com/innoriders/')], [m.urlButton('Sources', 'github.com/m8dotpie/innoriders-bot')]]));
 
+console.log("CHECK CHAT ID:");
+console.log(process.env.CHECK_CHAT);
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -61,7 +63,7 @@ bot.hears('Finished with proofs', async (ctx) => {
         let date = new Date(ctx.message.date * 1000);
         date.setHours(date.getHours() + 3);
         date.setMonth(date.getMonth() + 1);
-        ctx.telegram.sendMessage(process.env.CHECK_CHAT, ctx.from.id,
+        ctx.telegram.sendMessage(process.env.CHECK_CHAT,
                                  'Recieved new training from @'
                                  + ctx.from.username + '\n'
                                  + 'Email: ' + userData.email
