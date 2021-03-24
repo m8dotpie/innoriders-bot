@@ -174,32 +174,6 @@ bot.command('/notify', async (ctx) => {
     });
 });
 
-bot.on(['photo', 'video', 'document'], async (ctx) => {
-    if (!(await userExists(ctx))) {
-        ctx.reply("I'm not sure I know who are you. Try registering with /start");
-        return;
-    }
-    if (!(await client.query(`SELECT addingtraining FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].addingtraining) {
-        ctx.reply("You are not currently adding training. Consider using 'Add training' section.");
-        return;
-    }
-    let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
-    if (proofs == null) {
-        proofs = [ctx.message.message_id];
-    } else {
-        proofs.push(ctx.message.message_id);
-    }
-    let result = "ARRAY[";
-    for (var i = 0; i < proofs.length; ++i){
-        result += proofs[i];
-        if (i + 1 < proofs.length) {
-            result += ",";
-        }
-    }
-    result += "]";
-    await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
-    ctx.reply('I will remember this one. Looking for the next proofs!');
-});
 
 bot.command('email', async (ctx) => {
     if (!(await userExists(ctx))) {
@@ -231,6 +205,33 @@ bot.start(async (ctx) => {
         ctx.reply('Welcome to the club, mate!' +
                   '\nConsider reading \"About\" section.', (isAdmin ? adminMenu : defaultMenu));
     }
+});
+
+bot.on(['photo', 'video', 'document', 'text'], async (ctx) => {
+    if (!(await userExists(ctx))) {
+        ctx.reply("I'm not sure I know who are you. Try registering with /start");
+        return;
+    }
+    if (!(await client.query(`SELECT addingtraining FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].addingtraining) {
+        ctx.reply("You are not currently adding training. Consider using 'Add training' section.");
+        return;
+    }
+    let proofs = (await client.query(`SELECT proofs FROM ${curTable} WHERE id=${ctx.from.id}`)).rows[0].proofs;
+    if (proofs == null) {
+        proofs = [ctx.message.message_id];
+    } else {
+        proofs.push(ctx.message.message_id);
+    }
+    let result = "ARRAY[";
+    for (var i = 0; i < proofs.length; ++i){
+        result += proofs[i];
+        if (i + 1 < proofs.length) {
+            result += ",";
+        }
+    }
+    result += "]";
+    await client.query(`UPDATE ${curTable} SET proofs=${result} WHERE id=${ctx.from.id}`);
+    ctx.reply('I will remember this one. Looking for the next proofs!');
 });
 
 module.exports = bot;
